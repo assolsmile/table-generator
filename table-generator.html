@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table-generator</title>
+</head>
+<body>
+    <form>
+        <label for="row" >rows</label>
+        <input type="text" id="row">
+        <label for="col">cols</label><input type="text" id="col">
+        <button type="button" id="create" onclick="creatTable()">Create</button>
+
+    </form>
+    <script type="text/javascript">
+
+
+        function creatTable() {
+            var rows = parseInt(document.getElementById("row").value);
+            var columns = parseInt(document.getElementById("col").value);
+            var table = document.createElement("table");
+            table.id = "table";
+            table.border = "1";
+            document.body.appendChild(table);
+
+            for (var i = 0; i < rows; i++ ) {
+                var row = document.createElement("tr");
+                table.appendChild(row);
+                for (var j = 0; j < columns; j++) {
+                    var column = document.createElement("td");
+                    column.appendChild(document.createTextNode(i + j + 1));
+                    row.appendChild(column);
+                }
+            }
+
+        }
+    </script>
+</body>
+</html>
