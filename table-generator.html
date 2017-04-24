@@ -3,37 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <title>Table-generator</title>
+    <script>
+        var exampleData = [{
+            "company_name": "Medline Industries, Inc.",
+            "product": "Benzalkonium Chloride",
+            "price": "481.63"
+        }, {
+            "company_name": "PD-Rx Pharmaceuticals, Inc.",
+            "product": "Alprazolam",
+            "price": "167.62",
+            "fda_date_approved": "02/12/2015"
+        }, {
+            "company_name": "West-ward Pharmaceutical Corp.",
+            "product": "Flumazenil",
+            "fda_date_approved": "23/04/2015"
+        }, {
+            "company_name": "HyVee Inc",
+            "product": "Aspirin",
+            "price": "218.32",
+            "fda_date_approved": "26/07/2015"
+        }, {
+            "company_name": "Aurobindo Pharma Limited",
+            "product": "carisoprodol",
+            "price": "375.58",
+            "fda_date_approved": "28/11/2014"
+        }, {
+            "company_name": "Apotex Corp",
+            "product": "Risperidone",
+            "price": "213.49",
+            "fda_date_approved": "06/11/2015"
+        }, {
+            "company_name": "Unit Dose Services",
+            "product": "Lovastatin",
+            "price": "169.14",
+            "fda_date_approved": "14/09/2015"
+        }, {
+            "company_name": "Jubilant HollisterStier LLC",
+            "product": "Dog Hair Canis spp.",
+            "fda_date_approved": "31/12/2014"
+        }, {
+            "company_name": "AAA Pharmaceutical, Inc.",
+            "product": "ACETAMINOPHEN, CHLORPHENIRAMINE MALEATE, DEXTROMETHORPHAN HYDROBROMIDE, and PHENYLEPHRINE HYDROCHLORIDE",
+            "price": "183.33",
+            "fda_date_approved": "13/12/2015"
+        }, {
+            "company_name": "AKG Innovations LLC",
+            "product": "AVOBENZONE, OCTINOXATE, OCTISALATE",
+            "fda_date_approved": "22/01/2015"
+        }, {"company_name": "hikma Farmaceutica", "product": "Oxytocin"}, {
+            "company_name": "prime Packaging, Inc.",
+            "product": "Avobenzone, Homosalate, Octisalate, Octocrylene, Oxybenzone",
+            "price": "208.17"
+        }, {
+            "company_name": "Davion, Inc",
+            "product": "Triclosan",
+            "price": "80.30",
+            "fda_date_approved": "13/12/2014"
+        }, {
+            "company_name": "CARDINAL HEALTH",
+            "product": "CARBOXYMETHYLCELLULOSE SODIUM, GLYCERIN",
+            "price": "330.22",
+            "fda_date_approved": "11/08/2015"
+        }, {
+            "company_name": "Amgen Inc",
+            "product": "darbepoetin alfa",
+            "price": "332.28",
+            "fda_date_approved": "01/07/2015"
+        }, {
+            "company_name": "Autumn Harp, Inc.",
+            "product": "Salicylic Acid",
+            "price": "34.43",
+            "fda_date_approved": "25/03/2015"
+        }, {
+            "company_name": "American Regent, Inc.",
+            "product": "sodium phosphate, monobasic, monohydrate and sodium phosphate, dibasic anhydrous",
+            "price": "11.60"
+        }, {
+            "company_name": "J. A. Cosmetics U.S. INC",
+            "product": "TITANIUM DIOXIDE",
+            "price": "130.90",
+            "fda_date_approved": "01/12/2015"
+        }, {
+            "company_name": "NATURE REPUBLIC CO., LTD.",
+            "product": "Titanium Dioxide, OCTINOXATE, Zinc Oxide",
+            "price": "124.48"
+        }, {
+            "company_name": "L. Perrigo Company",
+            "product": "Dextromethorphan Hydrobromide, Guaifenesin",
+            "price": "73.09",
+            "fda_date_approved": "03/02/2016"
+        }];
+    </script>
 </head>
 <body>
-    <form>
-        <label for="row" >rows</label>
-        <input type="text" id="row">
-        <label for="col">cols</label><input type="text" id="col">
-        <button type="button" id="create" onclick="creatTable()">Create</button>
+<form>
+    <label for="row">rows</label>
+    <input type="text" id="row">
+    <label for="col">cols</label><input type="text" id="col">
+    <button type="button" id="create" onclick="createTable()">Create</button>
 
-    </form>
-    <script type="text/javascript">
+</form>
 
+<script type="text/javascript">
 
-        function creatTable() {
-            var rows = parseInt(document.getElementById("row").value);
-            var columns = parseInt(document.getElementById("col").value);
-            var table = document.createElement("table");
-            table.id = "table";
-            table.border = "1";
-            document.body.appendChild(table);
-
-            for (var i = 0; i < rows; i++ ) {
-                var row = document.createElement("tr");
-                table.appendChild(row);
-                for (var j = 0; j < columns; j++) {
-                    var column = document.createElement("td");
-                    column.appendChild(document.createTextNode(i + j + 1));
-                    row.appendChild(column);
+    function getHeaders(data) {
+        var headers = [];
+        for (var i = 0; i < data.length; i++) {
+            for (var key in data[i]) {
+                if (headers.indexOf(key) === -1) {
+                    headers.push(key);
                 }
             }
-
         }
-    </script>
+
+        return headers;
+    }
+
+    function createTable() {
+        var table = document.createElement("table");
+        table.border = "1";
+        document.body.appendChild(table);
+
+        var headers = getHeaders(exampleData);
+        var headTr = document.createElement("tr");
+        table.appendChild(headTr);
+        for (var i = 0; i < headers.length; i++) {
+            var th = document.createElement("th");
+            th.innerText = headers[i];
+            headTr.appendChild(th);
+        }
+
+        for (var i = 0; i < exampleData.length; i++) {
+            var tr = document.createElement("tr");
+            table.appendChild(tr);
+            for (var j = 0; j < headers.length; j++) {
+                var td = document.createElement("td");
+                td.innerText = exampleData[i][headers[j]];
+                tr.appendChild(td);
+                if (exampleData[i][headers[j]] == undefined) {
+                    td.innerText = "";
+                }
+            }
+        }
+
+    }
+</script>
 </body>
 </html>
